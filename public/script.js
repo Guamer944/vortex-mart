@@ -70,7 +70,7 @@ const products = [
         name: { en: "Articulated Dragon", fr: "Dragon Articulé" }, 
         category: { en: "3D Print", fr: "Impression 3D" }, 
         price: 15.00, 
-        image: "https://placehold.co/600x400/111/fff?text=Dragon",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuKZZ03oQzHaAx5AOVfZ-W7BPGKGClv_ahGw&s",
         desc: { 
             en: "A fully flexible 3D printed dragon. Great for fidgeting.", 
             fr: "Dragon imprimé en 3D entièrement flexible. Idéal pour manipuler."
@@ -82,10 +82,10 @@ const products = [
     },
     { 
         id: 2, 
-        name: { en: "Used LEGO Set", fr: "Ensemble LEGO Usagé" }, 
+        name: { en: "Pop-it", fr: "Pop-it" }, 
         category: { en: "Toys", fr: "Jouets" }, 
         price: 10.00, 
-        image: "https://placehold.co/600x400/111/fff?text=LEGOs",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-9juUSHat1wMnDI4TGx0iBVb3Vk0xKIkWYA&s",
         desc: { 
             en: "1lb bag of assorted LEGO bricks. Washed and sanitized.",
             fr: "Sac de 1lb de briques LEGO assorties. Lavé et désinfecté."
@@ -94,17 +94,17 @@ const products = [
     },
     { 
         id: 3, 
-        name: { en: "School Hoodie", fr: "Kangourou de l'École" }, 
+        name: { en: "A single banana", fr: "Une seule banane" }, 
         category: { en: "Apparel", fr: "Vêtements" }, 
-        price: 25.00, 
-        image: "https://placehold.co/600x400/111/fff?text=Hoodie",
+        price: 1000.00, 
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6K7ukGLhKcvBY8CeyLiTfjKCX0i8lwM4zSg&s",
         desc: { 
-            en: "Official school spirit wear. Warm and comfortable.",
-            fr: "Vêtement officiel de l'école. Chaud et confortable."
+            en: "Buy it.",
+            fr: "Achete le"
         },
         variants: { 
             name: { en: "Size", fr: "Taille" }, 
-            options: { en: ["S", "M", "L", "XL"], fr: ["P", "M", "G", "TG"] } 
+            options: { en: ["yes", "yes", "yes", "yes"], fr: ["oui", "oui", "oui", "oui"] } 
         }
     },
     { 
