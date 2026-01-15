@@ -66,19 +66,12 @@ const translations = {
 const products = [
     { 
         id: 1, 
-        // Objects for bilingual fields
         name: { en: "Articulated Dragon", fr: "Dragon Articulé" }, 
         category: { en: "3D Print", fr: "Impression 3D" }, 
         price: 15.00, 
         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuKZZ03oQzHaAx5AOVfZ-W7BPGKGClv_ahGw&s",
-        desc: { 
-            en: "A fully flexible 3D printed dragon. Great for fidgeting.", 
-            fr: "Dragon imprimé en 3D entièrement flexible. Idéal pour manipuler."
-        },
-        variants: { 
-            name: { en: "Color", fr: "Couleur" }, 
-            options: { en: ["Red", "Blue", "Green"], fr: ["Rouge", "Bleu", "Vert"] } 
-        }
+        desc: { en: "A fully flexible 3D printed dragon.", fr: "Dragon imprimé en 3D entièrement flexible." },
+        variants: { name: { en: "Color", fr: "Couleur" }, options: { en: ["Red", "Blue", "Green"], fr: ["Rouge", "Bleu", "Vert"] } }
     },
     { 
         id: 2, 
@@ -86,26 +79,18 @@ const products = [
         category: { en: "Toys", fr: "Jouets" }, 
         price: 10.00, 
         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-9juUSHat1wMnDI4TGx0iBVb3Vk0xKIkWYA&s",
-        desc: { 
-            en: "1lb bag of assorted LEGO bricks. Washed and sanitized.",
-            fr: "Sac de 1lb de briques LEGO assorties. Lavé et désinfecté."
-        },
+        desc: { en: "Silicone fidget toy.", fr: "Jouet en silicone." },
         variants: null
     },
     { 
         id: 3, 
-        name: { en: "A single banana", fr: "Une seule banane" }, 
-        category: { en: "Apparel", fr: "Vêtements" }, 
+        // 🍌 THE SECRET BANANA 🍌
+        name: { en: "A Single Banana", fr: "Une Seule Banane" }, 
+        category: { en: "Rare", fr: "Rare" }, 
         price: 1000.00, 
         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6K7ukGLhKcvBY8CeyLiTfjKCX0i8lwM4zSg&s",
-        desc: { 
-            en: "Buy it.",
-            fr: "Achete le"
-        },
-        variants: { 
-            name: { en: "Size", fr: "Taille" }, 
-            options: { en: ["yes", "yes", "yes", "yes"], fr: ["oui", "oui", "oui", "oui"] } 
-        }
+        desc: { en: "Buy it. Dare to dream.", fr: "Achete le. Osez rêver." },
+        variants: { name: { en: "Type", fr: "Type" }, options: { en: ["Standard"], fr: ["Standard"] } }
     },
     { 
         id: 4, 
@@ -113,14 +98,8 @@ const products = [
         category: { en: "3D Print", fr: "Impression 3D" }, 
         price: 5.00, 
         image: "https://placehold.co/600x400/111/fff?text=Spinner",
-        desc: { 
-            en: "High speed bearing fidget spinner. Custom 3D printed.", 
-            fr: "Roulement à haute vitesse. Impression 3D personnalisée."
-        },
-        variants: { 
-            name: { en: "Color", fr: "Couleur" }, 
-            options: { en: ["Black", "White"], fr: ["Noir", "Blanc"] } 
-        }
+        desc: { en: "High speed bearing fidget spinner.", fr: "Roulement à haute vitesse." },
+        variants: { name: { en: "Color", fr: "Couleur" }, options: { en: ["Black", "White"], fr: ["Noir", "Blanc"] } }
     },
     { 
         id: 5, 
@@ -137,10 +116,7 @@ const products = [
         category: { en: "Bundle", fr: "Paquet" }, 
         price: 8.00, 
         image: "https://placehold.co/600x400/111/fff?text=Mystery",
-        desc: { 
-            en: "A box containing 3 random used toys.", 
-            fr: "Une boîte contenant 3 jouets usagés aléatoires." 
-        },
+        desc: { en: "A box containing 3 random used toys.", fr: "Une boîte contenant 3 jouets usagés aléatoires." },
         variants: null
     },
 ];
@@ -160,7 +136,7 @@ const productPage = document.getElementById('product-page-overlay');
 
 // Initialize
 async function init() {
-    updateTextLanguage(); // Set initial text
+    updateTextLanguage(); 
     renderProducts(products);
     
     try {
@@ -178,34 +154,26 @@ async function init() {
 }
 
 /* =========================================
-   LANGUAGE LOGIC
+   LANGUAGE & RENDER
    ========================================= */
 function toggleLanguage() {
     currentLang = currentLang === 'en' ? 'fr' : 'en';
     document.getElementById('currentLangDisplay').innerText = currentLang.toUpperCase();
-    
     updateTextLanguage();
-    renderProducts(products); // Re-render grid with new language
-    updateCart(); // Re-render cart text
+    renderProducts(products);
+    updateCart();
 }
 
 function updateTextLanguage() {
     const elements = document.querySelectorAll('[data-lang]');
     elements.forEach(el => {
         const key = el.getAttribute('data-lang');
-        if (translations[currentLang][key]) {
-            el.innerText = translations[currentLang][key];
-        }
+        if (translations[currentLang][key]) el.innerText = translations[currentLang][key];
     });
-    
-    // Update placeholders
     document.getElementById('searchInput').placeholder = translations[currentLang].search_placeholder;
     document.getElementById('customerName').placeholder = currentLang === 'fr' ? "ex: Jean Dupont" : "e.g. John Smith";
 }
 
-/* =========================================
-   RENDER & FILTER
-   ========================================= */
 function renderProducts(items) {
     grid.innerHTML = items.map(p => `
         <div class="product-card" onclick="openProductPage(${p.id})">
@@ -224,27 +192,23 @@ function renderProducts(items) {
 
 function filterProducts() {
     const term = document.getElementById('searchInput').value.toLowerCase();
-    renderProducts(products.filter(p => 
-        p.name[currentLang].toLowerCase().includes(term)
-    ));
+    renderProducts(products.filter(p => p.name[currentLang].toLowerCase().includes(term)));
 }
 
 /* =========================================
-   PRODUCT PAGE LOGIC
+   PRODUCT PAGE & CART
    ========================================= */
 function openProductPage(id) {
     const p = products.find(prod => prod.id === id);
     currentProduct = p;
     selectedVariant = null;
 
-    // Populate Data (Using currentLang)
     document.getElementById('detail-img').src = p.image;
     document.getElementById('detail-cat').innerText = p.category[currentLang];
     document.getElementById('detail-title').innerText = p.name[currentLang];
     document.getElementById('detail-price').innerText = `$${p.price.toFixed(2)}`;
     document.getElementById('detail-desc').innerText = p.desc[currentLang];
 
-    // Handle Variants
     const variantSection = document.getElementById('variant-section');
     const variantContainer = document.getElementById('variant-options-container');
     const variantLabel = document.getElementById('variant-label');
@@ -254,10 +218,7 @@ function openProductPage(id) {
     if (p.variants) {
         variantSection.style.display = 'block';
         variantLabel.innerText = `${translations[currentLang].choose_option} (${p.variants.name[currentLang]}):`;
-        
-        // Use the array matching the current language
         const options = p.variants.options[currentLang]; 
-        
         options.forEach((opt, index) => {
             const btn = document.createElement('div');
             btn.className = 'v-btn';
@@ -270,7 +231,6 @@ function openProductPage(id) {
         variantSection.style.display = 'none';
         selectedVariant = 'Standard';
     }
-
     productPage.classList.remove('hidden');
 }
 
@@ -285,14 +245,16 @@ function closeProductPage() {
     currentProduct = null;
 }
 
+// 🛒 ADD ITEM AT FULL PRICE INITIALLY
 function addItemFromPage() {
     if (!currentProduct) return;
     
     const cartItem = {
         id: currentProduct.id,
-        name: currentProduct.name[currentLang], // Store name in current lang
-        price: currentProduct.price,
-        variantSelected: selectedVariant
+        name: currentProduct.name[currentLang],
+        price: currentProduct.price, // Add at NORMAL PRICE ($1000)
+        variantSelected: selectedVariant,
+        image: currentProduct.image
     };
 
     cart.push(cartItem);
@@ -300,13 +262,9 @@ function addItemFromPage() {
     
     const addedText = currentLang === 'fr' ? "ajouté au panier!" : "added to cart!";
     showToast(`${cartItem.name} ${addedText}`);
-    
     closeProductPage();
 }
 
-/* =========================================
-   CART LOGIC
-   ========================================= */
 function removeFromCart(idx) {
     cart.splice(idx, 1);
     updateCart();
@@ -314,8 +272,7 @@ function removeFromCart(idx) {
 
 function clearCart() {
     if(cart.length === 0) return;
-    const msg = currentLang === 'fr' ? "Tout effacer?" : "Remove all items?";
-    if(confirm(msg)) {
+    if(confirm(currentLang === 'fr' ? "Tout effacer?" : "Remove all items?")) {
         cart = [];
         updateCart();
     }
@@ -349,6 +306,37 @@ function updateCart() {
     }
 }
 
+/* =========================================
+   SECRET PRIZE CHECKER
+   ========================================= */
+async function checkForSecretPrize() {
+    // Look for the Banana (ID 3)
+    const bananaIndex = cart.findIndex(item => item.id === 3);
+    
+    if (bananaIndex !== -1) {
+        try {
+            // Ask server if prize is available
+            const res = await fetch('/api/claim-banana', { method: 'POST' });
+            const data = await res.json();
+            
+            if (data.success) {
+                // Apply Discount Locally
+                cart[bananaIndex].price = 2.00;
+                cart[bananaIndex].name += " (WINNER!)";
+                updateCart(); // Refresh view
+                alert(currentLang === 'fr' ? "🍌 FÉLICITATIONS! Vous avez gagné le prix secret! Le prix est maintenant 2$." : "🍌 CONGRATS! You won the secret prize! Price dropped to $2.");
+                return true;
+            }
+        } catch (e) {
+            console.error("Prize check failed", e);
+        }
+    }
+    return false;
+}
+
+/* =========================================
+   CHECKOUT LOGIC
+   ========================================= */
 function toggleCart() {
     const isHidden = cartModal.style.display === 'none' || cartModal.style.display === '';
     cartModal.style.display = isHidden ? 'flex' : 'none';
@@ -377,9 +365,7 @@ function togglePaymentUI() {
     }
 }
 
-/* =========================================
-   CHECKOUT
-   ========================================= */
+// 💵 CASH CHECKOUT HANDLER
 async function processCashOrder() {
     const name = document.getElementById('customerName').value.trim();
     if (!name) {
@@ -387,10 +373,15 @@ async function processCashOrder() {
         return;
     }
 
-    const total = cart.reduce((sum, i) => sum + i.price, 0).toFixed(2);
     const btn = document.getElementById('cashBtn');
     btn.disabled = true;
     btn.innerText = "Processing...";
+
+    // 1. CHECK FOR SECRET PRIZE RIGHT NOW
+    await checkForSecretPrize();
+
+    // 2. Calculate final total
+    const total = cart.reduce((sum, i) => sum + i.price, 0).toFixed(2);
 
     try {
         const formattedItems = cart.map(item => ({
@@ -426,19 +417,23 @@ async function processCashOrder() {
     }
 }
 
+// 💳 PAYPAL CHECKOUT HANDLER
 function setupPayPal() {
     if (!window.paypal) return;
     
     paypal.Buttons({
-        onClick: (data, actions) => {
+        onClick: async (data, actions) => {
             const name = document.getElementById('customerName').value.trim();
             if (!name) {
                 alert(translations[currentLang].full_name);
                 return actions.reject();
             }
+            // 1. CHECK FOR SECRET PRIZE RIGHT NOW
+            await checkForSecretPrize();
             return actions.resolve();
         },
         createOrder: (data, actions) => {
+            // 2. Total is recalculated with potential prize price
             const total = cart.reduce((sum, i) => sum + i.price, 0).toFixed(2);
             return actions.order.create({
                 purchase_units: [{
