@@ -17,11 +17,15 @@
         
         <div class="search-container">
             <i class="fas fa-search search-icon"></i>
-            <!-- ID added for translation logic -->
             <input type="text" id="searchInput" placeholder="Search inventory..." onkeyup="filterProducts()">
         </div>
 
         <div class="nav-actions">
+            <!-- NEW: Theme Toggle -->
+            <button class="icon-btn" onclick="toggleTheme()" id="themeBtn">
+                <i class="fas fa-moon"></i>
+            </button>
+
             <!-- Language Toggle -->
             <button class="lang-btn" onclick="toggleLanguage()">
                 <i class="fas fa-globe"></i> <span id="currentLangDisplay">EN</span>
@@ -150,6 +154,30 @@
 </div>
 
 <div id="toast-container"></div>
+
+<!-- ... html above ... -->
+
+<!-- DELETE: <script src="script.js"></script> -->
+
+<!-- PASTE THIS INSTEAD: -->
+<script>
+    // FORCE LOAD TOGGLE THEME
+    function toggleTheme() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        const btn = document.getElementById('themeBtn');
+        if(btn) btn.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+    }
+    
+    // Load Theme immediately
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        const btn = document.getElementById('themeBtn');
+        if(btn) btn.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+</script>
 
 <script src="script.js"></script>
 </body>
