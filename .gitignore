@@ -1,0 +1,13 @@
+# Ignore the secrets file
+.env
+
+# Ignore the heavy dependency folders (npm installs these automatically)
+node_modules/
+package-lock.json
+
+# Ignore system junk files
+.DS_Store
+Thumbs.db
+
+# Ignore log files
+npm-debug.log*

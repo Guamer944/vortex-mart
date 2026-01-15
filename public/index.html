@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VortexMart | Student Store</title>
+    
+    <!-- Google Fonts: Inter for that clean, professional look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+    <div class="nav-content">
+        <div class="brand">VortexMart.</div>
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="searchInput" placeholder="Search inventory..." onkeyup="filterProducts()">
+        </div>
+        <div class="cart-trigger" onclick="toggleCart()">
+            <span>Cart</span>
+            <div class="cart-badge" id="cartCount">0</div>
+        </div>
+    </div>
+</nav>
+
+<div class="main-layout">
+    <!-- Left Sidebar: Deals -->
+    <aside>
+        <div class="sticky-sidebar">
+            <h2 class="sidebar-header">Exclusive Deals</h2>
+            
+            <div class="promo-card">
+                <div class="tag">BUNDLE</div>
+                <h3>Starter Pack</h3>
+                <p>Buy any 3 pencils & get a free eraser.</p>
+            </div>
+
+            <div class="promo-card">
+                <div class="tag sale">SALE</div>
+                <h3>Used Tech</h3>
+                <p>Calculators are 15% off this week only.</p>
+            </div>
+            
+            <div class="promo-card">
+                <h3>Cash Accepted</h3>
+                <p>Don't have a card? Select "Cash" at checkout and pay in person.</p>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Right Content: Grid -->
+    <main>
+        <div class="header-section">
+            <h1>New Arrivals</h1>
+            <p>High quality student goods, 3D prints, and more.</p>
+        </div>
+        <div class="product-grid" id="productGrid">
+            <!-- Items injected by JS -->
+        </div>
+    </main>
+</div>
+
+<!-- Checkout Modal -->
+<div class="modal-overlay" id="cartModal">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h2>Checkout</h2>
+            <button class="close-btn" onclick="toggleCart()">&times;</button>
+        </div>
+        
+        <div class="modal-body">
+            <!-- Cart Items List -->
+            <div id="cartItemsContainer">
+                <div class="empty-state">Your cart is empty.</div>
+            </div>
+            
+            <div class="cart-summary">
+                <span>Total Due:</span>
+                <span id="cartTotal">$0.00</span>
+            </div>
+
+            <!-- CHECKOUT FORM -->
+            <div id="checkoutForm" class="checkout-form" style="display:none;">
+                <hr>
+                <div class="form-group">
+                    <label>Full Name (Required)</label>
+                    <input type="text" id="customerName" placeholder="e.g. John Smith">
+                </div>
+
+                <div class="payment-selection">
+                    <label>Payment Method</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="payment" value="cash" checked onchange="togglePaymentUI()">
+                            <span class="radio-box">
+                                <i class="fas fa-money-bill-wave"></i> Cash
+                            </span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="payment" value="paypal" onchange="togglePaymentUI()">
+                            <span class="radio-box">
+                                <i class="fab fa-paypal"></i> Card / PayPal
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Cash Button -->
+                <button id="cashBtn" class="checkout-btn cash-btn" onclick="processCashOrder()">
+                    Place Cash Order
+                </button>
+
+                <!-- PayPal Button Container -->
+                <div id="paypal-btn-container" style="display:none; margin-top:15px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
