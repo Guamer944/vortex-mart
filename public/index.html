@@ -4,13 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VortexMart | Student Store</title>
-    
-    <!-- Google Fonts: Inter for that clean, professional look -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -18,39 +13,49 @@
 <!-- Navigation -->
 <nav>
     <div class="nav-content">
-        <div class="brand">VortexMart.</div>
+        <div class="brand" onclick="closeProductPage()">VortexMart.</div>
+        
         <div class="search-container">
             <i class="fas fa-search search-icon"></i>
+            <!-- ID added for translation logic -->
             <input type="text" id="searchInput" placeholder="Search inventory..." onkeyup="filterProducts()">
         </div>
-        <div class="cart-trigger" onclick="toggleCart()">
-            <span>Cart</span>
-            <div class="cart-badge" id="cartCount">0</div>
+
+        <div class="nav-actions">
+            <!-- Language Toggle -->
+            <button class="lang-btn" onclick="toggleLanguage()">
+                <i class="fas fa-globe"></i> <span id="currentLangDisplay">EN</span>
+            </button>
+
+            <div class="cart-trigger" onclick="toggleCart()">
+                <span data-lang="cart">Cart</span>
+                <div class="cart-badge" id="cartCount">0</div>
+            </div>
         </div>
     </div>
 </nav>
 
 <div class="main-layout">
-    <!-- Left Sidebar: Deals -->
+    <!-- Left Sidebar -->
     <aside>
         <div class="sticky-sidebar">
-            <h2 class="sidebar-header">Exclusive Deals</h2>
+            <h2 class="sidebar-header" data-lang="deals_title">Exclusive Deals</h2>
             
             <div class="promo-card">
-                <div class="tag">BUNDLE</div>
-                <h3>Starter Pack</h3>
-                <p>Buy any 3 pencils & get a free eraser.</p>
+                <div class="tag" data-lang="bundle_tag">BUNDLE</div>
+                <h3 data-lang="promo1_title">Starter Pack</h3>
+                <p data-lang="promo1_desc">Buy any 3 pencils & get a free eraser.</p>
             </div>
 
             <div class="promo-card">
-                <div class="tag sale">SALE</div>
-                <h3>Used Tech</h3>
-                <p>Calculators are 15% off this week only.</p>
+                <div class="tag sale" data-lang="sale_tag">SALE</div>
+                <h3 data-lang="promo2_title">Used Tech</h3>
+                <p data-lang="promo2_desc">Calculators are 15% off this week only.</p>
             </div>
             
             <div class="promo-card">
-                <h3>Cash Accepted</h3>
-                <p>Don't have a card? Select "Cash" at checkout and pay in person.</p>
+                <h3 data-lang="cash_title">Cash Accepted</h3>
+                <p data-lang="cash_desc">Select "Cash" at checkout and pay in person.</p>
             </div>
         </div>
     </aside>
@@ -58,71 +63,93 @@
     <!-- Right Content: Grid -->
     <main>
         <div class="header-section">
-            <h1>New Arrivals</h1>
-            <p>High quality student goods, 3D prints, and more.</p>
+            <h1 data-lang="inventory_title">Inventory</h1>
+            <p data-lang="inventory_sub">Quality student goods, delivered to you.</p>
         </div>
-        <div class="product-grid" id="productGrid">
-            <!-- Items injected by JS -->
-        </div>
+        <div class="product-grid" id="productGrid"></div>
     </main>
+</div>
+
+<!-- Product Page Overlay -->
+<div id="product-page-overlay" class="product-page hidden">
+    <div class="product-page-content">
+        <button class="back-btn" onclick="closeProductPage()">
+            <i class="fas fa-arrow-left"></i> <span data-lang="back_btn">Back to Store</span>
+        </button>
+        
+        <div class="detail-container">
+            <div class="detail-image-box">
+                <img id="detail-img" src="" alt="Product">
+            </div>
+
+            <div class="detail-info-box">
+                <div class="detail-cat" id="detail-cat">Category</div>
+                <h1 id="detail-title">Product Title</h1>
+                <div class="detail-price" id="detail-price">$0.00</div>
+                <p class="detail-desc" id="detail-desc">Description...</p>
+
+                <hr>
+
+                <div id="variant-section" style="display:none;">
+                    <label class="variant-label" id="variant-label">Choose Option:</label>
+                    <div class="variant-options" id="variant-options-container"></div>
+                </div>
+
+                <button class="add-to-cart-large" onclick="addItemFromPage()" data-lang="add_cart">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Checkout Modal -->
 <div class="modal-overlay" id="cartModal">
     <div class="modal-container">
         <div class="modal-header">
-            <h2>Checkout</h2>
+            <h2 data-lang="your_cart">Your Cart</h2>
             <button class="close-btn" onclick="toggleCart()">&times;</button>
         </div>
         
         <div class="modal-body">
-            <!-- Cart Items List -->
             <div id="cartItemsContainer">
-                <div class="empty-state">Your cart is empty.</div>
+                <div class="empty-state" data-lang="cart_empty">Your cart is empty.</div>
             </div>
             
             <div class="cart-summary">
-                <span>Total Due:</span>
-                <span id="cartTotal">$0.00</span>
+                <button class="clear-btn" onclick="clearCart()" data-lang="clear_all">Clear All</button>
+                <span class="total-text" id="cartTotal">$0.00</span>
             </div>
 
-            <!-- CHECKOUT FORM -->
             <div id="checkoutForm" class="checkout-form" style="display:none;">
                 <hr>
                 <div class="form-group">
-                    <label>Full Name (Required)</label>
+                    <label data-lang="full_name">Full Name (Required)</label>
                     <input type="text" id="customerName" placeholder="e.g. John Smith">
                 </div>
 
                 <div class="payment-selection">
-                    <label>Payment Method</label>
+                    <label data-lang="payment_method">Payment Method</label>
                     <div class="radio-group">
                         <label class="radio-option">
                             <input type="radio" name="payment" value="cash" checked onchange="togglePaymentUI()">
-                            <span class="radio-box">
-                                <i class="fas fa-money-bill-wave"></i> Cash
-                            </span>
+                            <span class="radio-box"><i class="fas fa-money-bill-wave"></i> <span data-lang="cash">Cash</span></span>
                         </label>
                         <label class="radio-option">
                             <input type="radio" name="payment" value="paypal" onchange="togglePaymentUI()">
-                            <span class="radio-box">
-                                <i class="fab fa-paypal"></i> Card / PayPal
-                            </span>
+                            <span class="radio-box"><i class="fab fa-paypal"></i> PayPal</span>
                         </label>
                     </div>
                 </div>
 
-                <!-- Cash Button -->
-                <button id="cashBtn" class="checkout-btn cash-btn" onclick="processCashOrder()">
-                    Place Cash Order
-                </button>
-
-                <!-- PayPal Button Container -->
+                <button id="cashBtn" class="checkout-btn cash-btn" onclick="processCashOrder()" data-lang="place_cash_order">Place Cash Order</button>
                 <div id="paypal-btn-container" style="display:none; margin-top:15px;"></div>
             </div>
         </div>
     </div>
 </div>
+
+<div id="toast-container"></div>
 
 <script src="script.js"></script>
 </body>
